@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decifrador Intergaláctico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Background elements -->
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    <div class="noise noise-moving"></div>
+
+    <div class="container">
+        <h1 class="title">Decifrador Intergaláctico</h1>
+        <p class="subtitle">Desvende os segredos do universo</p>
+
+        <div class="input-group">
+            <label for="message">Mensagem Cifrada:</label>
+            <textarea id="message" class="hologram-input"
+                placeholder="Insira a mensagem cifrada aqui...">Uif!hpmefo!lfz!up!uif!vojwfstf"t!tfdsfut!jt!ivoo!pg!dpogvtjpo</textarea>
+        </div>
+
+        <button class="btn hologram" id="decryptBtn">
+            <span data-text="Decifrar">Decifrar</span>
+            <div class="scan-line"></div>
+        </button>
+
+        <div class="output-group">
+            <label for="result">Mensagem Decifrada:</label>
+            <div id="result" class="hologram-output">The golden key to the universe's secrets is hunt of confusion</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

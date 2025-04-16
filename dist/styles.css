@@ -1,0 +1,407 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+*::selection {
+  background: #fd5d8d;
+  color: #270245;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  position: relative;
+  background: #0a0a0a;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+body:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(125deg, rgba(0, 0, 0, 0) 30%, rgba(0, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0) 70%);
+  z-index: 500;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+body:after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(0, 255, 255, 0), rgba(0, 255, 255, 0.5), rgba(0, 255, 255, 0));
+  filter: blur(1px);
+  z-index: 50;
+  animation: containerScan 4s linear infinite;
+}
+
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 400;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.noise:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("https://ice-creme.de/images/background-noise.png");
+  pointer-events: none;
+}
+.noise-moving {
+  opacity: 0.8;
+  z-index: 450;
+}
+.noise-moving:before {
+  will-change: background-position;
+  animation: noise 1s infinite alternate;
+}
+
+.scanlines {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 300;
+  opacity: 0.5;
+  will-change: opacity;
+  animation: opacity 3s linear infinite;
+}
+.scanlines:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5) 51%);
+  background-size: 100% 4px;
+  will-change: background, background-size;
+  animation: scanlines 0.2s linear infinite;
+}
+
+.container {
+  position: relative;
+  z-index: 1000;
+  width: 90%;
+  max-width: 800px;
+  padding: 2rem;
+  background: rgba(10, 10, 10, 0.7);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.title {
+  font-family: "Press Start 2P", cursive;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  animation: rgbText 2s infinite alternate;
+}
+
+.subtitle {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.input-group,
+.output-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #00ffff;
+  font-weight: 600;
+}
+
+.hologram-input,
+.hologram-output {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.hologram-input {
+  min-height: 100px;
+  resize: vertical;
+}
+.hologram-input:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.hologram-output {
+  min-height: 100px;
+  background: rgba(255, 0, 255, 0.05);
+  border-color: rgba(255, 0, 255, 0.3);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+}
+
+.btn {
+  position: relative;
+  padding: 1.5rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  margin: 1.5rem 0;
+}
+
+.hologram {
+  border: 2px solid rgba(0, 255, 255, 0.5);
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  border-radius: 4px;
+}
+.hologram:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+.hologram:active {
+  transform: translateY(0);
+}
+
+.hologram span {
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+.hologram span::before,
+.hologram span::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  filter: blur(1px);
+  transition: all 0.3s ease;
+}
+
+.hologram span::before {
+  top: -2px;
+  color: #ff00ff;
+  transform: translateX(0);
+  animation: glitch 2s infinite;
+}
+
+.hologram span::after {
+  bottom: -2px;
+  color: #00ffff;
+  transform: translateX(0);
+  animation: glitch 2s infinite reverse;
+}
+
+.scan-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(0, 255, 255, 0.8), transparent);
+  top: 0;
+  animation: scan 2s linear infinite;
+  filter: blur(1px);
+}
+
+@keyframes noise {
+  0%, 100% {
+    background-position: 0 0;
+  }
+  10% {
+    background-position: -5% -10%;
+  }
+  20% {
+    background-position: -15% 5%;
+  }
+  30% {
+    background-position: 7% -25%;
+  }
+  40% {
+    background-position: 20% 25%;
+  }
+  50% {
+    background-position: -25% 10%;
+  }
+  60% {
+    background-position: 15% 5%;
+  }
+  70% {
+    background-position: 0 15%;
+  }
+  80% {
+    background-position: 25% 35%;
+  }
+  90% {
+    background-position: -10% 10%;
+  }
+}
+@keyframes opacity {
+  0% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 0.25;
+  }
+  35% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+@keyframes scanlines {
+  from {
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5) 51%);
+    background-size: 100% 4px;
+  }
+  to {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 50%, transparent 51%);
+    background-size: 100% 4px;
+  }
+}
+@keyframes rgbText {
+  0% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), 0px 0 1px rgba(251, 0, 231, 0.7), 0 0px 3px rgba(0, 233, 235, 0.7);
+  }
+  25% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), 0px 0 1px rgba(251, 0, 231, 0.7), 0 0px 3px rgba(0, 233, 235, 0.7);
+  }
+  45% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), 3px 0 1px rgba(251, 0, 231, 0.7), 0 3px 1px rgba(0, 233, 235, 0.7);
+  }
+  50% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), -3px 0 1px rgba(251, 0, 231, 0.7), 0 -3px 1px rgba(0, 233, 235, 0.7);
+  }
+  55% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), 0px 0 3px rgba(251, 0, 231, 0.7), 0 0px 3px rgba(0, 233, 235, 0.7);
+  }
+  90% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), -3px 0 1px rgba(251, 0, 231, 0.7), 0 3px 1px rgba(0, 233, 235, 0.7);
+  }
+  100% {
+    text-shadow: -1px 1px 8px rgba(255, 255, 255, 0.5), 1px -1px 8px rgba(255, 255, 235, 0.6), 3px 0 1px rgba(251, 0, 231, 0.7), 0 -3px 1px rgba(0, 233, 235, 0.7);
+  }
+}
+@keyframes glitch {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.3;
+  }
+  20% {
+    transform: translateX(-5px);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateX(5px);
+    opacity: 0.7;
+  }
+  60% {
+    transform: translateX(-3px);
+    opacity: 0.5;
+  }
+  80% {
+    transform: translateX(3px);
+    opacity: 0.3;
+  }
+}
+@keyframes scan {
+  0% {
+    top: -10%;
+  }
+  100% {
+    top: 110%;
+  }
+}
+@keyframes containerScan {
+  0% {
+    top: -10%;
+    opacity: 0.7;
+  }
+  30% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    top: 110%;
+    opacity: 0.7;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 1rem;
+  }
+  .title {
+    font-size: 1.4rem;
+  }
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  .btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */
